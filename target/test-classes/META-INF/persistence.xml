@@ -1,0 +1,28 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<!-- unidade de persistencia -->
+	<persistence-unit name="cantina" transaction-type="RESOURCE_LOCAL">
+		<!-- Aqui são listadas todas as entidades -->
+		<class>com.santander.cantina.modelo.Categoria</class>
+		<class>com.santander.cantina.modelo.Cliente</class>
+		<class>com.santander.cantina.modelo.Produto</class>
+		<class>com.santander.cantina.modelo.Endereco</class>
+		<class>com.santander.cantina.modelo.ItemPedido</class>
+		<class>com.santander.cantina.modelo.Pedido</class>
+		<properties>
+			<!-- Propriedades JDBC -->
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:cantina" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>
+			<!-- Configurações específicas do Hibernate -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>
