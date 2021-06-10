@@ -32,7 +32,6 @@ public class ClienteTest {
 		Cliente joaoSalvo = em.find(Cliente.class, 4);
 
 		assertEquals(4, joao.getId());
-		System.out.println(joaoSalvo.getEnderecos().size());
 		assertEquals(1, joaoSalvo.getEnderecos().size());
 	}
 
@@ -42,19 +41,21 @@ public class ClienteTest {
 		String jpql = "SELECT new com.santander.cantina.modelo.TotalCompraCliente(c.nome,sum(p.valorTotal),c.cpf) "
 				+ "FROM Pedido p JOIN p.cliente c GROUP BY p.cliente ORDER BY c.nome";
 		List<TotalCompraCliente> relatorio = em.createQuery(jpql, TotalCompraCliente.class).getResultList();
-
-		relatorio.stream().forEach(
-				r -> System.out.println("nome " + r.getNome() + "cpf " + r.getCpf() + " total" + r.getTotal()));
-
+		
 		assertEquals(3, relatorio.size());
 		assertEquals(68.00, relatorio.get(0).getTotal().doubleValue());
 
 	}
-	
+
 	@Test
 	void totalDespesaMensal() {
-		ClienteDao clienteDao = new ClienteDao(em);
-		List<TotalCompraMensalCliente> relatorio = clienteDao.relatorio();
+
+		String jpql = "SELECT new com.santander.cantina.modelo."
+				+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),'Teste')"
+				+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, FORMATDATETIME(p.dataCriacao,'yyyy-MM') ORDER BY c.nome";
+
+		List<TotalCompraMensalCliente> relatorio = em.createQuery(jpql, TotalCompraMensalCliente.class).getResultList();
+
 		assertEquals(6, relatorio.size());
 		assertEquals(10.00, relatorio.get(0).getValorTotal().doubleValue());
 	}

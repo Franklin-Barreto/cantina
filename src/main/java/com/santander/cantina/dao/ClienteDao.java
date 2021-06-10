@@ -14,18 +14,19 @@ public class ClienteDao {
 	public ClienteDao(EntityManager em) {
 		this.em = em;
 	}
-
+	
 	public Cliente buscarPorId(Integer id) {
 		return em.find(Cliente.class, id);
 	}
-
-	public List<TotalCompraMensalCliente> relatorio() {
-
-		String jpql = "SELECT new com.santander.cantina.modelo."
-				+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),function('date_format',p.dataCriacao,'%Y-%m'))"
-				+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, function('date_format',p.dataCriacao,'%Y-%m') ORDER BY c.nome";
-		return em.createQuery(jpql, TotalCompraMensalCliente.class).getResultList();
-
+	
+	public List<TotalCompraMensalCliente> relatorio(){
+		
+	String jpql = "SELECT new com.santander.cantina.modelo."
+			+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),function('date_format',p.dataCriacao,'%Y-%m'))"
+			+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, function('date_format',p.dataCriacao,'%Y-%m') ORDER BY c.nome";
+	return em.createQuery(jpql,TotalCompraMensalCliente.class).getResultList();
+	
 	}
-
+	
+	
 }

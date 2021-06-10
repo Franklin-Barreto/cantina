@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: cantina.ClienteTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.787 s - in cantina.ClienteTest
+Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.111 s <<< FAILURE! - in cantina.ClienteTest
+totalDespesaMensal  Time elapsed: 0.023 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "org.hibernate.type.Type.getColumnSpan(org.hibernate.engine.spi.Mapping)" because "types[i]" is null
+	at cantina.ClienteTest.totalDespesaMensal(ClienteTest.java:57)
+

@@ -25,11 +25,15 @@ public class Pedido {
 	private Integer id;
 	@Column(name = "data_criacao", nullable = false)
 	private LocalDate dataCriacao = LocalDate.now();
+	// Mapeando um cliente para vários pedidos e definindo o nome da chave estrangeira
 	@ManyToOne
 	@JoinColumn(name = "cliente_fk")
 	private Cliente cliente;
 	@Column(name = "valor_total")
 	private BigDecimal valorTotal = BigDecimal.ZERO;
+	/*Mapeando vários itens de pedido para um pedido
+	Obs na tabela de itens de pedido teremos uma referencia para pedido que será usada como bidirecional
+	 onde um pedido saberá quais são seus itens e um item saberá de qual pedido faz parte */
 	@OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
 	

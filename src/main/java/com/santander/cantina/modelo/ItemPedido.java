@@ -21,18 +21,22 @@ public class ItemPedido {
 	private Integer id;
 	@Column(name = "preco")
 	private BigDecimal valor;
+
 	@ManyToOne
 	@JoinColumn(name = "produto_fk")
 	private Produto produto;
+	// referência bidirecional com pedido x item pedido
 	@ManyToOne
 	@JoinColumn(name = "pedido_fk")
 	private Pedido pedido;
 	private int quantidade;
-	@Column(name = "valor_total")
+
+	// anotação que diz que um campo não será salvo no banco
 	@Transient
+	@Column(name = "valor_total")
 	private BigDecimal valorTotal = BigDecimal.ZERO;
 
-	public ItemPedido(Produto produto,int quantidade) {
+	public ItemPedido(Produto produto, int quantidade) {
 		this.valor = produto.getPreco();
 		this.produto = produto;
 		this.quantidade = quantidade;
