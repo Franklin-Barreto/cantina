@@ -17,14 +17,14 @@ import com.santander.cantina.modelo.TotalCompraCliente;
 import com.santander.cantina.modelo.TotalCompraMensalCliente;
 import com.santander.cantina.util.JpaUtil;
 
-public class ClienteTest {
+class ClienteTest {
 
 	private EntityManager em = JpaUtil.getEntityManager();
 
 	@Test
 	void salvarCliente() {
-		Cliente joao = new Cliente("João", "12346547987", LocalDate.of(1985, Month.SEPTEMBER, 20));
-		joao.adicionaEndereco(new Endereco("sei la", "123", "São Paulo"));
+		Cliente joao = new Cliente("Joï¿½o", "12346547987", LocalDate.of(1985, Month.SEPTEMBER, 20));
+		joao.adicionaEndereco(new Endereco("sei la", "123", "Sï¿½o Paulo"));
 		em.getTransaction().begin();
 		em.persist(joao);
 		em.getTransaction().commit();
@@ -32,7 +32,6 @@ public class ClienteTest {
 		Cliente joaoSalvo = em.find(Cliente.class, 4);
 
 		assertEquals(4, joao.getId());
-		System.out.println(joaoSalvo.getEnderecos().size());
 		assertEquals(1, joaoSalvo.getEnderecos().size());
 	}
 
@@ -43,9 +42,6 @@ public class ClienteTest {
 				+ "FROM Pedido p JOIN p.cliente c GROUP BY p.cliente ORDER BY c.nome";
 		List<TotalCompraCliente> relatorio = em.createQuery(jpql, TotalCompraCliente.class).getResultList();
 
-		relatorio.stream().forEach(
-				r -> System.out.println("nome " + r.getNome() + "cpf " + r.getCpf() + " total" + r.getTotal()));
-
 		assertEquals(3, relatorio.size());
 		assertEquals(68.00, relatorio.get(0).getTotal().doubleValue());
 
@@ -54,8 +50,10 @@ public class ClienteTest {
 	@Test
 	void totalDespesaMensal() {
 		ClienteDao clienteDao = new ClienteDao(em);
+		
 		List<TotalCompraMensalCliente> relatorio = clienteDao.relatorio();
-		assertEquals(6, relatorio.size());
+		
+		assertEquals(7, relatorio.size());
 		assertEquals(10.00, relatorio.get(0).getValorTotal().doubleValue());
 	}
 }

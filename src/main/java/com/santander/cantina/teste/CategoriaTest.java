@@ -17,8 +17,8 @@ public class CategoriaTest {
 	public static void main(String[] args) {
 		EntityManager em = JpaUtil.getEntityManager();
 
-		Cliente joao = new Cliente("João", "12346547987", LocalDate.of(1985, Month.SEPTEMBER, 20));
-		Endereco endereco = new Endereco("sei la", "123", "São Paulo");
+		Cliente joao = new Cliente("Joï¿½o", "12346547987", LocalDate.of(1985, Month.SEPTEMBER, 20));
+		Endereco endereco = new Endereco("sei la", "123", "Sï¿½o Paulo");
 	
 		Cliente joaoSalvo = em.find(Cliente.class, 1);
 

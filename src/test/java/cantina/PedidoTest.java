@@ -15,7 +15,7 @@ import com.santander.cantina.modelo.Pedido;
 import com.santander.cantina.modelo.Produto;
 import com.santander.cantina.util.JpaUtil;
 
-public class PedidoTest {
+class PedidoTest {
 
 	private EntityManager em = JpaUtil.getEntityManager();
 

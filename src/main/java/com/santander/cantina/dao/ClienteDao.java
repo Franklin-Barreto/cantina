@@ -22,8 +22,8 @@ public class ClienteDao {
 	public List<TotalCompraMensalCliente> relatorio() {
 
 		String jpql = "SELECT new com.santander.cantina.modelo."
-				+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),function('date_format',p.dataCriacao,'%Y-%m'))"
-				+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, function('date_format',p.dataCriacao,'%Y-%m') ORDER BY c.nome";
+				+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),concat(year(p.dataCriacao),'-',month(p.dataCriacao)))"
+				+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, concat(year(p.dataCriacao),'-',month(p.dataCriacao)) ORDER BY c.nome";
 		return em.createQuery(jpql, TotalCompraMensalCliente.class).getResultList();
 
 	}

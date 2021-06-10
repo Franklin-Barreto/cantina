@@ -12,13 +12,13 @@ import com.santander.cantina.dao.CategoriaDao;
 import com.santander.cantina.modelo.Categoria;
 import com.santander.cantina.util.JpaUtil;
 
-public class CategoriaTest {
+class CategoriaTest {
 
-	private EntityManager em =  JpaUtil.getEntityManager();
+	private EntityManager em = JpaUtil.getEntityManager();
 	private CategoriaDao dao = new CategoriaDao(em);
 
 	@Test
-	public void listarTodas() {
+	void listarTodas() {
 		List<Categoria> categorias = dao.listarTodas();
 		assertEquals(3, categorias.size());
 	}
