@@ -26,10 +26,6 @@ public class CategoriaTest {
 		
 		ClienteDao clienteDao = new ClienteDao(em);
 		
-		clienteDao.relatorio().forEach(r->{
-			System.out.println(r.getValorTotal()+ " "+r.getData());
-		});
-		
 		ProdutoMaisVendido produto = new ProdutoDao(em).relatorio();
 		
 		System.out.println(produto.getNome());

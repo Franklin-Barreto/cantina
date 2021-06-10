@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.santander.cantina.modelo.Cliente;
-import com.santander.cantina.modelo.TotalCompraMensalCliente;
 
 public class ClienteDao {
 
@@ -14,19 +13,17 @@ public class ClienteDao {
 	public ClienteDao(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	public Cliente buscarPorId(Integer id) {
 		return em.find(Cliente.class, id);
 	}
-	
-	public List<TotalCompraMensalCliente> relatorio(){
-		
-	String jpql = "SELECT new com.santander.cantina.modelo."
-			+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),function('date_format',p.dataCriacao,'%Y-%m'))"
-			+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, function('date_format',p.dataCriacao,'%Y-%m') ORDER BY c.nome";
-	return em.createQuery(jpql,TotalCompraMensalCliente.class).getResultList();
-	
+
+	public List<Object[]> buscarClientesValorTotalCompraPorData() {
+
+		String jpql = "SELECT p.cliente.nome,sum(p.valorTotal) "
+				+ "FROM Pedido p GROUP BY p.cliente.id, MONTH(p.dataCriacao), YEAR(p.dataCriacao) ORDER BY p.cliente.id";
+
+		return em.createQuery(jpql, Object[].class).getResultList();
 	}
-	
-	
+
 }

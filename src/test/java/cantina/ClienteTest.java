@@ -2,8 +2,10 @@ package cantina;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,13 +15,12 @@ import org.junit.jupiter.api.Test;
 import com.santander.cantina.dao.ClienteDao;
 import com.santander.cantina.modelo.Cliente;
 import com.santander.cantina.modelo.Endereco;
-import com.santander.cantina.modelo.TotalCompraCliente;
-import com.santander.cantina.modelo.TotalCompraMensalCliente;
 import com.santander.cantina.util.JpaUtil;
 
 public class ClienteTest {
 
 	private EntityManager em = JpaUtil.getEntityManager();
+	private ClienteDao clienteDao = new ClienteDao(em);
 
 	@Test
 	void salvarCliente() {
@@ -36,27 +37,16 @@ public class ClienteTest {
 	}
 
 	@Test
-	void totalDespesaCliente() {
+	void buscarClientesValorTotalCompraPorDataTest() {
+		List<Object[]> compraPorData = clienteDao.buscarClientesValorTotalCompraPorData();
 
-		String jpql = "SELECT new com.santander.cantina.modelo.TotalCompraCliente(c.nome,sum(p.valorTotal),c.cpf) "
-				+ "FROM Pedido p JOIN p.cliente c GROUP BY p.cliente ORDER BY c.nome";
-		List<TotalCompraCliente> relatorio = em.createQuery(jpql, TotalCompraCliente.class).getResultList();
-		
-		assertEquals(3, relatorio.size());
-		assertEquals(68.00, relatorio.get(0).getTotal().doubleValue());
+		for (Object[] objects : compraPorData) {
+			System.out.println(Arrays.toString(objects));
+		}
 
+		Object[] object = compraPorData.get(0);
+		assertEquals(6, compraPorData.size());
+		assertEquals(44.00, ((BigDecimal) object[1]).doubleValue());
 	}
 
-	@Test
-	void totalDespesaMensal() {
-
-		String jpql = "SELECT new com.santander.cantina.modelo."
-				+ "TotalCompraMensalCliente(c.nome,sum(p.valorTotal),'Teste')"
-				+ "FROM Pedido p JOIN p.cliente c GROUP BY c.id, FORMATDATETIME(p.dataCriacao,'yyyy-MM') ORDER BY c.nome";
-
-		List<TotalCompraMensalCliente> relatorio = em.createQuery(jpql, TotalCompraMensalCliente.class).getResultList();
-
-		assertEquals(6, relatorio.size());
-		assertEquals(10.00, relatorio.get(0).getValorTotal().doubleValue());
-	}
 }
