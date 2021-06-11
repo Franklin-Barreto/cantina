@@ -25,9 +25,23 @@ public class ProdutoTest {
 	}
 
 	@Test
+	void buscarProdutoPorNome() {
+		List<Produto> produtos = produtoDao.buscarProdutosPorNome("c");
+		assertEquals(2, produtos.size());
+		assertEquals("coca-cola", produtos.get(0).getNome());
+	}
+
+	@Test
 	void buscarProdutoPorNomeECategoria() {
-		List<Produto> produtos = produtoDao.porNomeECategoria("coca-cola", "bebidas");
+		List<Produto> produtos = produtoDao.buscarProdutosPorNomeECategoria("coca", "bebidas");
 		assertEquals(1, produtos.size());
-		assertEquals("coca-cola",produtos.get(0).getNome());
+		assertEquals("coca-cola", produtos.get(0).getNome());
+	}
+
+	@Test
+	void buscarProdutoPorNomeECategoriaNULL() {
+		List<Produto> produtos = produtoDao.buscarProdutosPorNomeECategoria("coca", null);
+		assertEquals(1, produtos.size());
+		assertEquals("coca-cola", produtos.get(0).getNome());
 	}
 }

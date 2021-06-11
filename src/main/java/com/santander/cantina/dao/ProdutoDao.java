@@ -3,6 +3,7 @@ package com.santander.cantina.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.santander.cantina.modelo.Produto;
 import com.santander.cantina.modelo.ProdutoMaisVendido;
@@ -22,10 +23,35 @@ public class ProdutoDao {
 		return em.createQuery(jpql, ProdutoMaisVendido.class).setMaxResults(1).getSingleResult();
 	}
 
-	public List<Produto> porNomeECategoria(String produtoNome, String produtoCategoria) {
-		String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome =:categoriaNome AND p.nome = :produtoNome";
-		return em.createQuery(jpql, Produto.class).setParameter("categoriaNome", produtoCategoria)
-				.setParameter("produtoNome", produtoNome).getResultList();
+	public List<Produto> buscarProdutosPorNome(String nome) {
+
+		return em.createQuery("SELECT p FROM Produto p WHERE p.nome LIKE :nome", Produto.class)
+				.setParameter("nome", "%" + nome + "%").getResultList();
+	}
+
+	public List<Produto> buscarProdutosPorNomeECategoria(String nome, String categoria) {
+
+		String jpql = "SELECT p FROM Produto p WHERE 1=1";
+
+		if (nome != null) {
+			jpql += " AND p.nome LIKE :nome";
+		}
+
+		if (categoria != null) {
+			jpql += " AND p.categoria.nome LIKE :categoria";
+		}
+
+		TypedQuery<Produto> query = em.createQuery(jpql, Produto.class);
+		if (nome != null) {
+			query.setParameter("nome", "%" + nome + "%");
+		}
+
+		if (categoria != null) {
+			query.setParameter("categoria", "%" + categoria + "%");
+		}
+
+		return query.getResultList();
+
 	}
 
 	public void salvar(Produto produto) {

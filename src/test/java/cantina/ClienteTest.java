@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.santander.cantina.dao.ClienteDao;
 import com.santander.cantina.modelo.Cliente;
 import com.santander.cantina.modelo.Endereco;
+import com.santander.cantina.modelo.RelatorioPorClienteValorTotalPedido;
 import com.santander.cantina.util.JpaUtil;
 
 public class ClienteTest {
@@ -37,8 +38,8 @@ public class ClienteTest {
 	}
 
 	@Test
-	void buscarClientesValorTotalCompraPorDataTest() {
-		List<Object[]> compraPorData = clienteDao.buscarClientesValorTotalCompraPorData();
+	void buscarClientesValorTotalCompraPorDataTestAT() {
+		List<Object[]> compraPorData = clienteDao.buscarClientesValorTotalCompraPorDataAT();
 
 		for (Object[] objects : compraPorData) {
 			System.out.println(Arrays.toString(objects));
@@ -47,6 +48,21 @@ public class ClienteTest {
 		Object[] object = compraPorData.get(0);
 		assertEquals(6, compraPorData.size());
 		assertEquals(44.00, ((BigDecimal) object[1]).doubleValue());
+	}
+
+	@Test
+	void buscarClientesValorTotalCompraPorDataTest() {
+		List<RelatorioPorClienteValorTotalPedido> compraPorData = clienteDao.buscarClientesValorTotalCompraPorData();
+
+		assertEquals(6, compraPorData.size());
+		assertEquals(44.00, compraPorData.get(0).getValor().doubleValue());
+	}
+	
+	@Test
+	void buscaClientePorNomeECpf() {
+		List<Cliente> clientes = clienteDao.buscarClientes("Luciane", "12345678912");
+		assertEquals(1, clientes.size());
+		assertEquals("Luciane", clientes.get(0).getNome());
 	}
 
 }
