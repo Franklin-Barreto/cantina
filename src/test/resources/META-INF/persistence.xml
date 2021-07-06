@@ -11,6 +11,7 @@
 		<class>com.santander.cantina.modelo.Endereco</class>
 		<class>com.santander.cantina.modelo.ItemPedido</class>
 		<class>com.santander.cantina.modelo.Pedido</class>
+		<class>com.santander.cantina.modelo.AvaliacaoProduto</class>
 		<properties>
 			<!-- Propriedades JDBC -->
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />

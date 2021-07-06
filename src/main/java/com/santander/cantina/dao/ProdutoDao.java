@@ -57,4 +57,8 @@ public class ProdutoDao {
 	public void salvar(Produto produto) {
 		em.persist(produto);
 	}
+
+	public Produto buscarPorId(int id) {
+		return em.find(Produto.class, id);
+	}
 }

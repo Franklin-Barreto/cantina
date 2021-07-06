@@ -3,7 +3,9 @@ package com.santander.cantina.modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,6 +29,9 @@ public class Cliente {
 	private LocalDate dataNascimento;
 	@OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+	private Set<AvaliacaoProduto> avaliacoes = new HashSet<>();
 
 	public Cliente(String nome, String cpf, LocalDate dataNascimento) {
 		this.nome = nome;

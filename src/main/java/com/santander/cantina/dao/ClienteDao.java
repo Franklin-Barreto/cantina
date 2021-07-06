@@ -1,5 +1,6 @@
 package com.santander.cantina.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -45,10 +46,25 @@ public class ClienteDao {
 		CriteriaQuery<Cliente> cq = cb.createQuery(Cliente.class);
 		Root<Cliente> root = cq.from(Cliente.class);
 
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate[] predicate = new Predicate[2];
-		predicate[0] = cb.equal(root.get("nome"), nome);
-		predicate[1] = cb.like(root.get("cpf"), "%" + cpf + "%");
-		cq.select(root).where(predicate);
+		
+		 Predicate filtro = cb.and();
+		
+		if (nome != null) {
+			//predicates.add(cb.equal(root.get("nome"), nome));
+			
+			filtro = cb.and(filtro,cb.equal(root.get("nome"), nome));
+		}
+
+		if (cpf != null) {
+			//predicates.add(cb.like(root.get("cpf"), "%" + cpf + "%"));
+			filtro = cb.and(filtro,cb.like(root.get("cpf"), "%" + cpf + "%"));
+		}
+
+		;
+		//cq.select(root).where(predicates.toArray(Predicate[]::new));
+		cq.select(root).where(filtro);
 
 		return em.createQuery(cq).getResultList();
 
